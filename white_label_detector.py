@@ -60,10 +60,13 @@ class WhiteLabelDetector:
             print(results.pandas().xyxy[0])
             results.show()
 
+        # this is the way we get output from yolo v5
+        # .values cause I want to work on np array
         vet_boxes = results.pandas().xyxy[0].values
 
         # take only the white labels
-        vet_boxes = self._filter_white_labels(vet_boxes)
+        if vet_boxes.shape[0] > 0:
+            vet_boxes = self._filter_white_labels(vet_boxes)
 
         # some processing to remove some decimal digits
         if vet_boxes.shape[0] > 0:
