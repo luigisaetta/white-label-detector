@@ -8,8 +8,6 @@ import numpy as np
 
 
 class WhiteLabelDetector:
-    # class 0 is barcode
-    # class 1 is qrcode
     PARENT_MODEL = "ultralytics/yolov5"
     # if you want to show the images with white labels detectd (for example, in a NB)
     SHOW = False
