@@ -40,6 +40,19 @@ imgs = detector.detect_and_crop_white_labels(img1)
 
 ```
 
+## The model.
+The model has been trained using a 1GPU **V100**, in Oracle Data Science.
+
+The model has been trained over around **110 jpg** images, for 100 epochs.
+
+These are the **performance metrics**, measured on the validation set:
+    
+|Class     |Images  |Instances      |    P      |  R     |mAP50   |mAP50-95 |
+|----------|--------|---------------|-----------|--------|--------|---------|
+|   all    |   19   |      19       |   0.997   |  1     |  0.995 |   0.946 |
+| bianca   |   19   |      19       |   0.997   |  1     |  0.995 |   0.98  |
+| gialla   |   19   |      19       |   0.996   |  1     |  0.995 |   0.913 |
+
 ## Dependencies
 Obviously, you don't need to download the code for YOLO V5 to use the Detector.
 
