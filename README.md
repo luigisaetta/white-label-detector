@@ -35,7 +35,7 @@ detector = WhiteLabelDetector(MODEL_PATH, CONFIDENCE)
 # read the image
 img1 = read_image("./img1.jpg")
 
-# get a vector with all BB, confidence and classes
+# get a list with croped imgs as np array H,W,C
 imgs = detector.detect_and_crop_white_labels(img1)
 
 ```
