@@ -11,7 +11,10 @@ Then, when you instantiate the Detector class, you have to specify the pathname 
 See, as an example, this [NB](https://github.com/luigisaetta/white-label-detector/blob/main/test_white_label_detector.ipynb).
 
 ## Usage
+If you want to get BB rectangles:
 ```
+from white_label_detector import WhiteLabelDetector
+
 # instantiate
 detector = WhiteLabelDetector(MODEL_PATH, CONFIDENCE)
 
@@ -20,6 +23,20 @@ img1 = read_image("./img1.jpg")
 
 # get a vector with all BB, confidence and classes
 boxes = detector.detect_white_labels(img1)
+
+```
+If you want to get cropped images:
+```
+from white_label_detector import WhiteLabelDetector
+
+# instantiate
+detector = WhiteLabelDetector(MODEL_PATH, CONFIDENCE)
+
+# read the image
+img1 = read_image("./img1.jpg")
+
+# get a vector with all BB, confidence and classes
+imgs = detector.detect_and_crop_white_labels(img1)
 
 ```
 

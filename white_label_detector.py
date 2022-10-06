@@ -11,7 +11,10 @@ class WhiteLabelDetector:
     PARENT_MODEL = "ultralytics/yolov5"
     # if you want to show the images with white labels detectd (for example, in a NB)
     SHOW = False
-
+    # if we want to apply yolov5 TTA in inference (default = True), can be changed
+    # without TTA is a little bit faster
+    AUGMENT = True
+    
     def _load_model(self):
         self.model = torch.hub.load(self.PARENT_MODEL, "custom", path=self.model_path)
         # and set the confidence level
@@ -47,13 +50,33 @@ class WhiteLabelDetector:
             row[4] = round(row[4], 3)
 
         return vet
+    
+    # this is a utility method.... not to be called from outside
+    def do_crop_for_class(self, results, class_name):
+        # class could be barcode, qrcode barcode o qrcode
+        # results is what returned from model()
 
+        imgs = results.crop(save=False)
+
+        list_imgs_barcode = []
+
+        for img in imgs:
+            if class_name.lower() in img["label"]:
+                im = img["im"]
+                # trasforma l'immagine in RGB altrimenti icolori sono cambiati
+                img_rgb = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
+
+                list_imgs_barcode.append(img_rgb)
+
+        return list_imgs_barcode
+    
     # the function take as input the img read as np array and returns a matrix
     # with one row for every white label detected and
     # (xmin, ymin, xmax, ymax, confidence, class#, class)
+    # This func. returns BB
     def detect_white_labels(self, img: np.ndarray):
         # using TTA
-        results = self.model(img, augment=True)
+        results = self.model(img, augment=self.AUGMENT)
 
         if self.SHOW:
             results.print()
@@ -78,3 +101,14 @@ class WhiteLabelDetector:
         # consider that labels are returned in order of decreasing confidence, not by location
         # but you have the BB coords... so you can establish which is above and which is below
         return vet_boxes
+    
+    # This func returns a list of imgs (ac np array, H,W,C, RGB)
+    def detect_and_crop_white_labels(self, img: np.ndarray):
+        # using TTA
+        results = self.model(img, augment=self.AUGMENT)
+
+        # first the barcodes and then qrcodes
+        list_white_labels = self.do_crop_for_class(results, "bianca")
+
+        return list_white_labels
+        
