@@ -44,7 +44,8 @@ class WhiteLabelDetector:
 
         return vet_out
 
-    # reduce the # of decimal digits
+    """ reduce the # of decimal digits """
+
     def _reduce_digits(self, vet):
         # for every row
         for row in vet:
@@ -58,7 +59,7 @@ class WhiteLabelDetector:
 
         return vet
 
-    """this is a utility method.... not to be called from outside """
+    """ this is a utility method.... not to be called from outside """
 
     def do_crop_for_class(self, results, class_name):
         # class could be barcode, qrcode barcode o qrcode
